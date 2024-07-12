@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <style>
+    text { font-family: Arial, sans-serif; font-size: 14px; fill: #333; }
+    .title { font-size: 24px; font-weight: bold; fill: #2c3e50; }
+    .subtitle { font-size: 18px; font-weight: bold; fill: #34495e; }
+    .box { rx: 10; ry: 10; }
+    .code { font-family: monospace; font-size: 12px; }
+  </style>
+  
+  <!-- 背景 -->
+  <rect width="100%" height="100%" fill="#ecf0f1"/>
+  
+  <!-- タイトル -->
+  <text x="400" y="40" text-anchor="middle" class="title">Rのデータ型とデータ構造</text>
+  
+  <!-- データ型 -->
+  <g transform="translate(50, 80)">
+    <text x="0" y="-10" class="subtitle">基本データ型</text>
+    <rect x="0" y="10" width="340" height="200" fill="#3498db" class="box" opacity="0.2"/>
+    <text x="10" y="40">数値 (numeric)</text>
+    <text x="20" y="60" class="code">例: 3.14, 42</text>
+    <text x="10" y="90">文字列 (character)</text>
+    <text x="20" y="110" class="code">例: "Hello"</text>
+    <text x="10" y="140">論理値 (logical)</text>
+    <text x="20" y="160" class="code">例: TRUE, FALSE</text>
+  </g>
+  
+  <!-- ベクトル -->
+  <g transform="translate(410, 80)">
+    <text x="0" y="-10" class="subtitle">ベクトル</text>
+    <rect x="0" y="10" width="340" height="200" fill="#2ecc71" class="box" opacity="0.2"/>
+    <text x="10" y="40" class="code">c(1, 2, 3, 4, 5)</text>
+    <text x="10" y="70" class="code">c("a", "b", "c")</text>
+    <text x="10" y="100" class="code">c(TRUE, FALSE, TRUE)</text>
+  </g>
+  
+  <!-- 行列 -->
+  <g transform="translate(50, 310)">
+    <text x="0" y="-10" class="subtitle">行列</text>
+    <rect x="0" y="10" width="340" height="200" fill="#e74c3c" class="box" opacity="0.2"/>
+    <text x="10" y="40" class="code">1  2  3</text>
+    <text x="10" y="70" class="code">4  5  6</text>
+    <text x="10" y="100" class="code">7  8  9</text>
+    <text x="10" y="140" class="code">matrix(1:9, nrow=3, ncol=3)</text>
+  </g>
+  
+  <!-- データフレーム -->
+  <g transform="translate(410, 310)">
+    <text x="0" y="-10" class="subtitle">データフレーム</text>
+    <rect x="0" y="10" width="340" height="200" fill="#f39c12" class="box" opacity="0.2"/>
+    <text x="10" y="40" class="code">name    age   height</text>
+    <text x="10" y="70" class="code">"Alice"  25    165</text>
+    <text x="10" y="100" class="code">"Bob"    30    180</text>
+    <text x="10" y="130" class="code">"Charlie" 35    175</text>
+    <text x="10" y="170" class="code">data.frame(name=c("Alice","Bob","Charlie"),</text>
+    <text x="10" y="190" class="code">           age=c(25,30,35),</text>
+    <text x="10" y="210" class="code">           height=c(165,180,175))</text>
+  </g>
+</svg>
