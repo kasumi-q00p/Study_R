@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R言語の基礎 - 練習問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .question {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+        .answer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>R言語の基礎 - 練習問題</h1>
+
+    <div class="question">
+        <h2>問題 1: 基本的な演算</h2>
+        <p>次の計算をRで実行してください：<code>(5 + 3) * 2 - 4 ^ 2</code></p>
+        <button onclick="toggleAnswer('answer1')">回答を表示/非表示</button>
+        <div id="answer1" class="answer">
+            <p>Rでの計算:</p>
+            <pre><code>(5 + 3) * 2 - 4 ^ 2</code></pre>
+            <p>結果: 0</p>
+            <p>説明:</p>
+            <ol>
+                <li><code>5 + 3 = 8</code></li>
+                <li><code>4 ^ 2 = 16</code> (べき乗が最初に計算されます)</li>
+                <li><code>(8) * 2 = 16</code></li>
+                <li><code>16 - 16 = 0</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 2: ベクトル操作</h2>
+        <p>次のRコードを実行し、結果を確認してください：</p>
+        <pre><code>x <- c(1, 3, 5, 7, 9)
+y <- x[x > 4] * 2
+sum(y)</code></pre>
+        <button onclick="toggleAnswer('answer2')">回答を表示/非表示</button>
+        <div id="answer2" class="answer">
+            <p>Rでの計算:</p>
+            <pre><code>x <- c(1, 3, 5, 7, 9)
+y <- x[x > 4] * 2
+sum(y)</code></pre>
+            <p>結果: 42</p>
+            <p>説明:</p>
+            <ol>
+                <li><code>x > 4</code> は <code>c(FALSE, FALSE, TRUE, TRUE, TRUE)</code> を返します</li>
+                <li><code>x[x > 4]</code> は <code>c(5, 7, 9)</code> を選択します</li>
+                <li>これを2倍すると <code>c(10, 14, 18)</code> になります</li>
+                <li><code>sum(c(10, 14, 18)) = 42</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 3: データフレーム操作</h2>
+        <p>以下のデータフレームを作成し、平均年齢を計算するRコードを書いて実行してください：</p>
+        <pre><code>df <- data.frame(
+  name = c("Alice", "Bob", "Charlie", "David"),
+  age = c(25, 30, 35, 28),
+  height = c(165, 180, 175, 182)
+)
+
+# ここに平均年齢を計算するコードを書いてください</code></pre>
+        <button onclick="toggleAnswer('answer3')">回答を表示/非表示</button>
+        <div id="answer3" class="answer">
+            <p>Rでの計算:</p>
+            <pre><code>df <- data.frame(
+  name = c("Alice", "Bob", "Charlie", "David"),
+  age = c(25, 30, 35, 28),
+  height = c(165, 180, 175, 182)
+)
+
+mean(df$age)</code></pre>
+            <p>結果: 29.5</p>
+            <p>説明: <code>df$age</code> でage列を選択し、<code>mean()</code> 関数で平均を計算します。</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
