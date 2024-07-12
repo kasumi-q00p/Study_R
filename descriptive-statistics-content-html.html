@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. 記述統計学 - Rで学ぶ生物統計学とデータ可視化（実際のデータセット例を追加）</title>
+    <style>
+        /* 既存のスタイルはそのまま */
+    </style>
+</head>
+<body>
+    <!-- 既存のコンテンツはそのまま -->
+
+    <h2>4.5 実際の生物学データセットを用いた例</h2>
+    <p>ここでは、ショウジョウバエ（Drosophila）の3種のデータを用いて、記述統計とデータ可視化の例を示します。</p>
+
+    <pre><code># データの読み込み
+drosophila_data <- read.csv("real_bio_dataset.csv")
+
+# 基本的な記述統計
+summary(drosophila_data)
+
+# 種ごとの体長の平均と標準偏差
+aggregate(length_mm ~ species, data = drosophila_data, FUN = function(x) c(mean = mean(x), sd = sd(x)))
+
+# ggplot2を使用したグラフ作成
+library(ggplot2)
+
+# 体長のボックスプロット
+ggplot(drosophila_data, aes(x = species, y = length_mm, fill = species)) +
+  geom_boxplot() +
+  labs(title = "ショウジョウバエ3種の体長比較", x = "種", y = "体長 (mm)") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2")
+
+# 体長と体重の散布図
+ggplot(drosophila_data, aes(x = length_mm, y = weight_g, color = species)) +
+  geom_point(size = 3, alpha = 0.7) +
+  labs(title = "ショウジョウバエの体長と体重の関係", x = "体長 (mm)", y = "体重 (g)") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1")
+</code></pre>
+
+    <p>この例では、3種のショウジョウバエ（D. melanogaster、D. simulans、D. yakuba）の体長と体重データを分析しています。ボックスプロットを使用して種間の体長の違いを視覚化し、散布図で体長と体重の関係を種ごとに表現しています。</p>
+
+</body>
+</html>
