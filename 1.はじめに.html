@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. はじめに - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>1. はじめに</h1>
+
+    <h2>Rとは何か</h2>
+    <p>Rは、統計計算とグラフィックスのためのプログラミング言語および環境です。生物統計学、データ分析、機械学習など、幅広い分野で使用されています。以下がRの主な特徴です：</p>
+    <ul>
+        <li>オープンソースで無料</li>
+        <li>統計解析に特化した豊富な機能</li>
+        <li>拡張性が高く、多数のパッケージが利用可能</li>
+        <li>データ可視化のための強力なツール</li>
+        <li>アクティブなコミュニティサポート</li>
+    </ul>
+
+    <h2>Rのインストール方法</h2>
+    <ol>
+        <li><a href="https://www.r-project.org/" target="_blank">R公式ウェブサイト</a>にアクセス</li>
+        <li>「download R」をクリック</li>
+        <li>お使いのオペレーティングシステム（Windows, Mac, Linux）を選択</li>
+        <li>最新版のRをダウンロードしてインストール</li>
+    </ol>
+    <p class="note">注意: インストール時にデフォルト設定を変更する必要はありません。</p>
+
+    <h2>RStudioの紹介と基本的な使い方</h2>
+    <p>RStudioは、R言語のための統合開発環境（IDE）です。コードの書きやすさ、データの可視化、プロジェクト管理などの機能を提供し、R言語の使用をより効率的にします。</p>
+
+    <h3>RStudioのインストール</h3>
+    <ol>
+        <li><a href="https://www.rstudio.com/products/rstudio/download/" target="_blank">RStudio公式ウェブサイト</a>にアクセス</li>
+        <li>RStudio Desktopの無料版をダウンロード</li>
+        <li>ダウンロードしたインストーラーを実行</li>
+    </ol>
+
+    <h3>RStudioの基本的な使い方</h3>
+    <ol>
+        <li>RStudioを起動すると、4つのペインに分かれた画面が表示されます：
+            <ul>
+                <li>左上: ソースエディタ（Rスクリプトを書く場所）</li>
+                <li>左下: コンソール（コマンドを直接実行する場所）</li>
+                <li>右上: 環境／履歴（作成した変数や実行履歴を確認）</li>
+                <li>右下: ファイル／プロット／パッケージ／ヘルプ（多目的ペイン）</li>
+            </ul>
+        </li>
+        <li>新しいRスクリプトを作成: File &gt; New File &gt; R Script</li>
+        <li>コードの実行:
+            <ul>
+                <li>1行実行: カーソルを置いて Ctrl+Enter（Mac: Cmd+Enter）</li>
+                <li>複数行実行: 範囲選択して Ctrl+Enter（Mac: Cmd+Enter）</li>
+            </ul>
+        </li>
+        <li>パッケージのインストールと読み込み:
+            <pre><code># パッケージのインストール
+install.packages("ggplot2")
+
+# パッケージの読み込み
+library(ggplot2)</code></pre>
+        </li>
+        <li>ヘルプの利用:
+            <ul>
+                <li>関数のヘルプを見る: <code>?関数名</code>（例: <code>?mean</code>）</li>
+                <li>パッケージのヘルプを見る: ヘルプペインの検索ボックスを使用</li>
+            </ul>
+        </li>
+    </ol>
+</body>
+</html>
