@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. R言語の基礎 - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>2. R言語の基礎</h1>
+
+    <h2>基本的な演算と関数</h2>
+    <p>Rは強力な計算機能を持っています。以下に基本的な演算と関数の例を示します：</p>
+    <pre><code># 基本的な算術演算
+5 + 3   # 加算
+10 - 4  # 減算
+6 * 7   # 乗算
+20 / 5  # 除算
+2 ^ 3   # べき乗
+
+# 基本的な関数
+sqrt(16)   # 平方根
+abs(-7)    # 絶対値
+log(10)    # 自然対数
+exp(2)     # 指数関数
+round(3.7) # 四捨五入</code></pre>
+
+    <h2>データ型（数値、文字列、論理値）</h2>
+    <p>Rには以下の主要なデータ型があります：</p>
+    <h3>1. 数値 (numeric)</h3>
+    <pre><code>x <- 10.5  # 小数
+y <- 5     # 整数
+class(x)   # "numeric"
+class(y)   # "numeric"</code></pre>
+
+    <h3>2. 文字列 (character)</h3>
+    <pre><code>name <- "John Doe"
+class(name)  # "character"</code></pre>
+
+    <h3>3. 論理値 (logical)</h3>
+    <pre><code>is_true <- TRUE
+is_false <- FALSE
+class(is_true)  # "logical"</code></pre>
+
+    <h2>ベクトルと行列の操作</h2>
+    <h3>ベクトル</h3>
+    <p>ベクトルは同じデータ型の要素の集まりです。</p>
+    <pre><code># ベクトルの作成
+numbers <- c(1, 2, 3, 4, 5)
+fruits <- c("apple", "banana", "cherry")
+
+# ベクトルの操作
+numbers[3]          # 3番目の要素にアクセス
+numbers * 2         # すべての要素を2倍
+length(fruits)      # ベクトルの長さ
+sum(numbers)        # 合計
+mean(numbers)       # 平均</code></pre>
+
+    <h3>行列</h3>
+    <p>行列は2次元のデータ構造です。</p>
+    <pre><code># 行列の作成
+m <- matrix(1:9, nrow = 3, ncol = 3)
+
+# 行列の操作
+m[2, 3]             # 2行3列の要素にアクセス
+t(m)                # 転置
+m * 2               # すべての要素を2倍
+colSums(m)          # 列ごとの合計
+rowMeans(m)         # 行ごとの平均</code></pre>
+
+    <h2>データフレームの基本</h2>
+    <p>データフレームは、異なるデータ型の列を持つことができる2次元のデータ構造です。生物統計学でよく使用されます。</p>
+    <pre><code># データフレームの作成
+df <- data.frame(
+  name = c("Alice", "Bob", "Charlie"),
+  age = c(25, 30, 35),
+  height = c(165, 180, 175)
+)
+
+# データフレームの操作
+df$name             # name列にアクセス
+df[2, "age"]        # 2行目のage列にアクセス
+nrow(df)            # 行数
+ncol(df)            # 列数
+summary(df)         # 要約統計量</code></pre>
+
+    <p class="note">注意: これらは基本的な操作の一部にすぎません。Rには多くの高度な機能と関数があり、データ分析や統計処理を効率的に行うことができます。</p>
+
+</body>
+</html>
