@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <style>
+    text { font-family: Arial, sans-serif; font-size: 14px; }
+    .title { font-size: 18px; font-weight: bold; }
+    .step { font-weight: bold; }
+  </style>
+  
+  <!-- 背景 -->
+  <rect width="100%" height="100%" fill="#f0f0f0"/>
+  
+  <!-- タイトル -->
+  <text x="400" y="30" text-anchor="middle" class="title">RとRStudioのインストール手順</text>
+  
+  <!-- Rのインストール手順 -->
+  <g transform="translate(50, 60)">
+    <text x="0" y="0" class="step">Rのインストール:</text>
+    <rect x="0" y="10" width="300" height="150" fill="#ffffff" stroke="#000000"/>
+    <text x="10" y="35">1. R公式サイトにアクセス</text>
+    <text x="10" y="65">2. 「download R」をクリック</text>
+    <text x="10" y="95">3. OSを選択</text>
+    <text x="10" y="125">4. 最新版をダウンロード・インストール</text>
+  </g>
+  
+  <!-- RStudioのインストール手順 -->
+  <g transform="translate(450, 60)">
+    <text x="0" y="0" class="step">RStudioのインストール:</text>
+    <rect x="0" y="10" width="300" height="150" fill="#ffffff" stroke="#000000"/>
+    <text x="10" y="35">1. RStudio公式サイトにアクセス</text>
+    <text x="10" y="65">2. RStudio Desktop（無料版）を選択</text>
+    <text x="10" y="95">3. インストーラーをダウンロード</text>
+    <text x="10" y="125">4. インストーラーを実行</text>
+  </g>
+  
+  <!-- 矢印 -->
+  <g stroke="#000000" stroke-width="2">
+    <line x1="200" y1="220" x2="200" y2="280"/>
+    <line x1="600" y1="220" x2="600" y2="280"/>
+    <line x1="200" y1="280" x2="600" y2="280"/>
+    <line x1="400" y1="280" x2="400" y2="320"/>
+  </g>
+  
+  <!-- 完了 -->
+  <g transform="translate(300, 320)">
+    <rect x="0" y="0" width="200" height="40" fill="#4CAF50" rx="20"/>
+    <text x="100" y="25" text-anchor="middle" fill="#ffffff">インストール完了！</text>
+  </g>
+</svg>
