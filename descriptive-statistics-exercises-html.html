@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記述統計学の練習問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .question {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+        .answer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>記述統計学の練習問題</h1>
+
+    <div class="question">
+        <h2>問題 1: 基本的な記述統計量の計算</h2>
+        <p>ショウジョウバエのデータセット（drosophila_data）を使用して、D. melanogasterの体長（length_mm）の平均、中央値、標準偏差を計算してください。</p>
+        <button onclick="toggleAnswer('answer1')">回答を表示/非表示</button>
+        <div id="answer1" class="answer">
+            <pre><code># D. melanogasterのデータを抽出
+melanogaster_data <- subset(drosophila_data, species == "Drosophila melanogaster")
+
+# 平均、中央値、標準偏差の計算
+mean_length <- mean(melanogaster_data$length_mm)
+median_length <- median(melanogaster_data$length_mm)
+sd_length <- sd(melanogaster_data$length_mm)
+
+print(paste("平均体長:", mean_length))
+print(paste("体長の中央値:", median_length))
+print(paste("体長の標準偏差:", sd_length))
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 2: ggplot2を使用したグラフ作成</h2>
+        <p>ggplot2を使用して、3種のショウジョウバエの体重（weight_g）のヒストグラムを作成してください。種ごとに色分けし、1つの図に3種のヒストグラムを重ねて表示してください。</p>
+        <button onclick="toggleAnswer('answer2')">回答を表示/非表示</button>
+        <div id="answer2" class="answer">
+            <pre><code>library(ggplot2)
+
+ggplot(drosophila_data, aes(x = weight_g, fill = species)) +
+  geom_histogram(position = "identity", alpha = 0.7, bins = 10) +
+  labs(title = "3種のショウジョウバエの体重分布",
+       x = "体重 (g)", y = "頻度") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2")
+            </code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 3: データの要約と解釈</h2>
+        <p>3種のショウジョウバエの体長（length_mm）について、種ごとの要約統計量（最小値、第1四分位数、中央値、平均、第3四分位数、最大値）を計算し、結果を解釈してください。</p>
+        <button onclick="toggleAnswer('answer3')">回答を表示/非表示</button>
+        <div id="answer3" class="answer">
+            <pre><code># 種ごとの要約統計量の計算
+summary_stats <- aggregate(length_mm ~ species, data = drosophila_data, 
+                           FUN = function(x) c(min = min(x), 
+                                               q1 = quantile(x, 0.25), 
+                                               median = median(x), 
+                                               mean = mean(x), 
+                                               q3 = quantile(x, 0.75), 
+                                               max = max(x)))
+print(summary_stats)
+
+# 解釈:
+# 結果を見ると、D. yakubaが他の2種より体長が大きい傾向があることがわかります。
+# D. melanogasterとD. simulansは似た体長分布を示していますが、
+# D. melanogasterの方がわずかに大きい傾向があります。
+# これらの違いが統計的に有意かどうかを判断するには、
+# さらなる統計的検定（例：ANOVAや事後検定）が必要です。
+            </code></pre>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
