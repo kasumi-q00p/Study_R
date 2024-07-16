@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. 記述統計学 - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>4. 記述統計学</h1>
+
+    <p>記述統計学は、データセットの主要な特徴を要約し、理解しやすい形で表現する統計手法です。生物学研究では、データの全体像を把握し、傾向や特徴を見出すために重要です。</p>
+
+    <h2>4.1 平均、中央値、標準偏差の計算</h2>
+
+    <h3>4.1.1 平均 (Mean)</h3>
+    <p>平均は、データの中心傾向を示す最も一般的な指標です。</p>
+    <pre><code># 平均の計算
+mean_weight <- mean(data$Weight)
+print(paste("平均体重:", mean_weight))</code></pre>
+
+    <h3>4.1.2 中央値 (Median)</h3>
+    <p>中央値は、データを順に並べたときの中央の値で、外れ値の影響を受けにくい特徴があります。</p>
+    <pre><code># 中央値の計算
+median_weight <- median(data$Weight)
+print(paste("体重の中央値:", median_weight))</code></pre>
+
+    <h3>4.1.3 標準偏差 (Standard Deviation)</h3>
+    <p>標準偏差は、データのばらつきを示す指標です。</p>
+    <pre><code># 標準偏差の計算
+sd_weight <- sd(data$Weight)
+print(paste("体重の標準偏差:", sd_weight))</code></pre>
+
+    <h2>4.2 ヒストグラムと箱ひげ図の作成</h2>
+
+    <h3>4.2.1 ヒストグラム</h3>
+    <p>ヒストグラムは、データの分布を視覚化するのに適しています。</p>
+    <pre><code># ヒストグラムの作成
+hist(data$Weight, main="体重の分布", xlab="体重", ylab="頻度")</code></pre>
+
+    <h3>4.2.2 箱ひげ図</h3>
+    <p>箱ひげ図は、データの分布、中央値、四分位数、外れ値を同時に表現できます。</p>
+    <pre><code># 箱ひげ図の作成
+boxplot(data$Weight ~ data$Species, main="種ごとの体重分布", xlab="種", ylab="体重")</code></pre>
+
+    <h2>4.3 散布図とペアプロット</h2>
+
+    <h3>4.3.1 散布図</h3>
+    <p>散布図は、2つの変数間の関係を視覚化するのに適しています。</p>
+    <pre><code># 散布図の作成
+plot(data$Weight, data$Height, main="体重と身長の関係", xlab="体重", ylab="身長", pch=19)</code></pre>
+
+    <h3>4.3.2 ペアプロット</h3>
+    <p>ペアプロットは、多変量データの関係を一度に視覚化するのに役立ちます。</p>
+    <pre><code># ペアプロットの作成
+pairs(data[, c("Weight", "Height", "Age")], main="体重、身長、年齢の関係")</code></pre>
+
+    <h2>4.4 ggplot2を使用したグラフ作成</h2>
+    <p>ggplot2パッケージを使用すると、より洗練されたグラフを作成することができます。</p>
+
+    <pre><code># ggplot2パッケージのインストールと読み込み
+install.packages("ggplot2")
+library(ggplot2)
+
+# ヒストグラムの作成
+ggplot(data, aes(x = Weight)) +
+  geom_histogram(binwidth = 10, fill = "skyblue", color = "black") +
+  labs(title = "体重の分布", x = "体重", y = "頻度") +
+  theme_minimal()
+
+# 箱ひげ図の作成
+ggplot(data, aes(x = Species, y = Weight, fill = Species)) +
+  geom_boxplot() +
+  labs(title = "種ごとの体重分布", x = "種", y = "体重") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2")
+
+# 散布図の作成
+ggplot(data, aes(x = Weight, y = Height, color = Species)) +
+  geom_point(size = 3, alpha = 0.7) +
+  labs(title = "体重と身長の関係", x = "体重", y = "身長") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1")
+</code></pre>
+
+    <p>ggplot2を使用することで、色使いや軸の設定、凡例の配置などをより細かく制御でき、publication-readyな図を作成することができます。</p>
+
+    <div class="note">
+    <p><strong>注意：</strong> 実際のデータ分析では、これらの手法を組み合わせて使用し、多角的にデータを理解することが重要です。また、データの性質や研究目的に応じて、適切な記述統計手法を選択することが必要です。</p>
+    </div>
+
+    <h2>まとめ</h2>
+    <p>記述統計学の手法を用いることで、データセットの基本的な特徴を把握し、視覚化することができます。これらの手法は、より高度な統計分析を行う前の予備的な分析として、また結果の要約として重要な役割を果たします。base Rの基本的なプロットに加え、ggplot2を使用することで、より洗練されたビジュアライゼーションを作成できます。</p>
+
+</body>
+</html>
