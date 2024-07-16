@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. 基本的な統計検定 - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>5. 基本的な統計検定</h1>
+
+    <p>統計検定は、データから得られた結果が偶然によるものなのか、実際に意味のある差や関係があるのかを判断するために使用されます。生物学研究では、様々な統計検定が用いられますが、ここでは基本的なものをいくつか紹介します。</p>
+
+    <h2>5.1 t検定（対応なし、対応あり）</h2>
+
+    <p>t検定は、2つのグループ間の平均値の差を比較するために使用されます。</p>
+
+    <h3>5.1.1 対応なしt検定</h3>
+    <p>例：2つの異なる種の植物の高さを比較する場合</p>
+    <pre><code># データの準備
+species_A <- c(10.2, 11.5, 9.8, 11.0, 10.5)
+species_B <- c(12.3, 11.8, 13.1, 11.5, 12.7)
+
+# t検定の実行
+t_test_result <- t.test(species_A, species_B)
+
+# 結果の表示
+print(t_test_result)
+</code></pre>
+
+    <h3>5.1.2 対応ありt検定</h3>
+    <p>例：同じ個体の治療前後の測定値を比較する場合</p>
+    <pre><code># データの準備
+before_treatment <- c(5.2, 5.5, 5.0, 5.8, 5.3)
+after_treatment <- c(6.1, 6.3, 5.8, 6.5, 6.0)
+
+# 対応ありt検定の実行
+paired_t_test_result <- t.test(before_treatment, after_treatment, paired = TRUE)
+
+# 結果の表示
+print(paired_t_test_result)
+</code></pre>
+
+    <h2>5.2 分散分析（一元配置、二元配置）</h2>
+
+    <p>分散分析（ANOVA）は、3つ以上のグループ間の平均値の差を比較するために使用されます。</p>
+
+    <h3>5.2.1 一元配置分散分析</h3>
+    <p>例：3つの異なる肥料が植物の成長に与える影響を比較する場合</p>
+    <pre><code># データの準備
+fertilizer_data <- data.frame(
+  growth = c(10, 12, 11, 13, 11, 14, 15, 16, 14, 15, 18, 19, 17, 18, 20),
+  fertilizer = factor(rep(c("A", "B", "C"), each = 5))
+)
+
+# 一元配置分散分析の実行
+anova_result <- aov(growth ~ fertilizer, data = fertilizer_data)
+
+# 結果の表示
+summary(anova_result)
+</code></pre>
+
+    <h3>5.2.2 二元配置分散分析</h3>
+    <p>例：肥料の種類と光の強度が植物の成長に与える影響を比較する場合</p>
+    <pre><code># データの準備
+plant_data <- data.frame(
+  growth = c(10, 12, 11, 13, 14, 15, 16, 17, 18, 20, 19, 21),
+  fertilizer = factor(rep(c("A", "B"), each = 6)),
+  light = factor(rep(c("Low", "High"), each = 3, times = 2))
+)
+
+# 二元配置分散分析の実行
+two_way_anova_result <- aov(growth ~ fertilizer * light, data = plant_data)
+
+# 結果の表示
+summary(two_way_anova_result)
+</code></pre>
+
+    <h2>5.3 相関分析と回帰分析</h2>
+
+    <h3>5.3.1 相関分析</h3>
+    <p>相関分析は、2つの変数間の関係の強さと方向を測定します。</p>
+    <pre><code># データの準備
+height <- c(150, 160, 170, 180, 190)
+weight <- c(50, 60, 70, 80, 90)
+
+# 相関係数の計算
+correlation <- cor(height, weight)
+
+# 結果の表示
+print(paste("相関係数:", correlation))
+
+# 相関検定
+cor_test <- cor.test(height, weight)
+print(cor_test)
+</code></pre>
+
+    <h3>5.3.2 単回帰分析</h3>
+    <p>回帰分析は、1つの変数（説明変数）を使用して別の変数（応答変数）を予測するモデルを作成します。</p>
+    <pre><code># 単回帰分析の実行
+regression_model <- lm(weight ~ height)
+
+# 結果の表示
+summary(regression_model)
+
+# 回帰直線のプロット
+plot(height, weight, main = "身長と体重の関係", xlab = "身長 (cm)", ylab = "体重 (kg)")
+abline(regression_model, col = "red")
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> これらの統計検定を使用する際は、データの性質（正規性、等分散性など）を確認し、適切な検定方法を選択することが重要です。また、p値だけでなく、効果量や信頼区間も考慮に入れて結果を解釈することをお勧めします。</p>
+    </div>
+
+    <p>次のセクションでは、これらの基本的な統計検定を用いた実践的な例題と、結果の解釈方法について詳しく学んでいきます。</p>
+
+</body>
+</html>
