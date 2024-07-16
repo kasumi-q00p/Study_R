@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9. 実践的なプロジェクト例 - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>9. 実践的なプロジェクト例</h1>
+
+    <p>このセクションでは、これまで学んだスキルを実際の生物学的データ分析シナリオに適用します。</p>
+
+    <h2>9.1 遺伝子発現データの解析と可視化</h2>
+
+    <p>ここでは、RNA-seqデータの基本的な解析と可視化を行います。</p>
+
+    <pre><code># 必要なパッケージのインストールと読み込み
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("DESeq2", update = FALSE)
+install.packages(c("pheatmap", "ggplot2"))
+
+# パッケージの読み込み
+library(DESeq2)
+library(pheatmap)
+library(ggplot2)
+
+# サンプルデータの作成（通常はファイルから読み込みます）
+counts_data <- matrix(rnbinom(1000, size=0.4, mu=20), ncol=10)
+colnames(counts_data) <- c(paste0("Control", 1:5), paste0("Treatment", 1:5))
+rownames(counts_data) <- paste0("gene", 1:100)
+
+condition <- factor(rep(c("Control", "Treatment"), each=5))
+coldata <- data.frame(row.names=colnames(counts_data), condition)
+
+# DESeqDataSetオブジェクトの作成
+dds <- DESeqDataSetFromMatrix(countData = counts_data,
+                              colData = coldata,
+                              design = ~ condition)
+
+# 差異発現解析の実行
+dds <- DESeq(dds)
+res <- results(dds)
+
+# 結果の表示
+head(res)
+
+# MA-plotの作成
+plotMA(res, ylim=c(-2,2))
+
+# 発現量の上位50遺伝子のヒートマップ作成
+select <- order(rowMeans(counts(dds,normalized=TRUE)),
+                decreasing=TRUE)[1:50]
+nt <- normTransform(dds) # 対数変換
+pheatmap(assay(nt)[select,], cluster_rows=FALSE, show_rownames=FALSE,
+         cluster_cols=FALSE, annotation_col=coldata)
+
+# 火山プロット
+volcano_data <- data.frame(log2FoldChange = res$log2FoldChange, 
+                           pvalue = -log10(res$pvalue))
+
+ggplot(volcano_data, aes(x = log2FoldChange, y = pvalue)) +
+  geom_point(aes(color = abs(log2FoldChange) > 1 & pvalue > 2), 
+             alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("black", "red")) +
+  labs(title = "Volcano plot",
+       x = "log2 Fold Change",
+       y = "-log10 p-value") +
+  theme_minimal()
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> このコードは、BiocManager を使用して DESeq2 をインストールします。インストールプロセスに時間がかかる場合があります。また、インストール中に追加のパッケージをインストールするかどうか尋ねられる場合があります。通常は 'n' と答えて続行してください。問題が発生した場合は、R を再起動してから再試行してください。</p>
+    </div>
+
+    <h2>9.2 生態学データの統計解析とグラフ作成</h2>
+
+    <p>ここでは、架空の生態学データを用いて、種の多様性と環境要因の関係を分析します。</p>
+
+    <pre><code># 必要なパッケージのインストールと読み込み
+if (!requireNamespace("vegan", quietly = TRUE)) 
+  install.packages("vegan")
+if (!requireNamespace("ggplot2", quietly = TRUE)) 
+  install.packages("ggplot2")
+
+library(vegan)
+library(ggplot2)
+
+# サンプルデータの作成
+set.seed(123)
+species_data <- matrix(rpois(50*20, lambda=5), nrow=50, ncol=20)
+colnames(species_data) <- paste0("sp", 1:20)
+environmental_data <- data.frame(
+  temperature = runif(50, 15, 25),
+  rainfall = runif(50, 500, 1500),
+  elevation = runif(50, 0, 1000)
+)
+
+# 種の多様性指数の計算
+diversity_indices <- data.frame(
+  shannon = diversity(species_data, index="shannon"),
+  simpson = diversity(species_data, index="simpson")
+)
+
+# 環境要因と多様性指数の関係を可視化
+env_diversity <- cbind(environmental_data, diversity_indices)
+
+ggplot(env_diversity, aes(x = temperature, y = shannon)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Temperature vs Shannon Diversity",
+       x = "Temperature (°C)",
+       y = "Shannon Diversity Index") +
+  theme_minimal()
+
+# 正準対応分析 (CCA)
+cca_result <- cca(species_data ~ temperature + rainfall + elevation, data = environmental_data)
+
+# CCAの結果をプロット
+plot(cca_result, type = "n", scaling = "species")
+points(cca_result, display = "sites", pch = 21, bg = "lightblue", cex = 1.2)
+text(cca_result, display = "species", col = "red", cex = 0.8)
+arrows(0, 0, scores(cca_result)$biplot[,1], scores(cca_result)$biplot[,2], 
+       col = "blue", length = 0.05)
+
+# 結果の要約
+summary(cca_result)
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> このコードは架空のデータを使用しています。実際の解析では、自身の生態学データを使用してください。正準対応分析（CCA）は、種の組成と環境要因の関係を視覚化するのに役立ちます。</p>
+    </div>
+
+    <h2>まとめ</h2>
+    <p>これらの例では、実際のデータ解析プロセスの一部を示しています。実際のプロジェクトでは、データのクリーニング、前処理、より詳細な統計解析、そして結果の生物学的解釈が必要になります。また、これらの手法を自身のデータに適用する際は、データの特性や研究目的に応じて適切に調整することが重要です。</p>
+
+</body>
+</html>

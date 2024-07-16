@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R Markdownを使用したレポート作成の練習問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>R Markdownを使用したレポート作成の練習問題</h1>
+
+    <h2>サンプルデータ</h2>
+    <p>以下のコードを使用して、サンプルデータを生成します。このデータは、3つの植物種の成長データを模しています。</p>
+
+    <pre><code>set.seed(123)
+plant_data <- data.frame(
+  species = rep(c("A", "B", "C"), each = 50),
+  height = c(rnorm(50, 10, 2), rnorm(50, 12, 2), rnorm(50, 15, 2)),
+  weight = c(rnorm(50, 5, 1), rnorm(50, 6, 1), rnorm(50, 7, 1)),
+  treatment = rep(c("Control", "Treatment"), each = 25, times = 3)
+)
+write.csv(plant_data, "plant_growth_data.csv", row.names = FALSE)
+</code></pre>
+
+    <h2>R Markdownのサンプルコード</h2>
+    <p>以下は、上記のデータを使用したR Markdownのサンプルコードです。</p>
+
+    <pre><code>---
+title: "植物成長データの分析"
+author: "あなたの名前"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+```
+
+## はじめに
+
+このレポートでは、3つの植物種（A, B, C）の成長データを分析します。
+
+## データの読み込みと前処理
+
+```{r}
+plant_data <- read.csv("plant_growth_data.csv")
+head(plant_data)
+```
+
+## 基本統計量
+
+各種の平均身長と体重を計算します。
+
+```{r}
+plant_data %>%
+  group_by(species) %>%
+  summarise(
+    mean_height = mean(height),
+    mean_weight = mean(weight)
+  )
+```
+
+## データの可視化
+
+### 種ごとの身長分布
+
+```{r}
+ggplot(plant_data, aes(x = species, y = height, fill = species)) +
+  geom_boxplot() +
+  labs(title = "種ごとの身長分布", x = "種", y = "身長 (cm)")
+```
+
+### 身長と体重の関係
+
+```{r}
+ggplot(plant_data, aes(x = height, y = weight, color = species)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "身長と体重の関係", x = "身長 (cm)", y = "体重 (g)")
+```
+
+## 統計分析
+
+身長に対する種と処理の効果を分析します。
+
+```{r}
+model <- lm(height ~ species + treatment, data = plant_data)
+summary(model)
+```
+
+## 結論
+
+分析の結果、...（ここに分析結果の解釈を書きます）
+</code></pre>
+
+    <h2>練習問題</h2>
+    <p>以下の手順に従って、R Markdownを使用したレポートを作成してください。</p>
+
+    <ol>
+        <li>RStudioで新しいR Markdownファイルを作成し、タイトルを "植物成長データの分析" としてください。</li>
+        <li>上記のサンプルデータ生成コードを使用して、CSVファイルを作成してください。</li>
+        <li>データの読み込みと基本的な要約統計量の計算を行ってください。</li>
+        <li>以下のグラフを作成してください：
+            <ul>
+                <li>種ごとの身長のボックスプロット</li>
+                <li>処理（Control/Treatment）ごとの体重のヒストグラム</li>
+                <li>身長と体重の散布図（種ごとに色分け）</li>
+            </ul>
+        </li>
+        <li>種と処理が植物の身長に与える影響を分析する線形モデルを作成し、結果を解釈してください。</li>
+        <li>分析結果に基づいて、簡単な結論を書いてください。</li>
+        <li>レポートをHTMLファイルとしてコンパイル（Knit）し、出力を確認してください。</li>
+    </ol>
+
+    <div class="note">
+    <p><strong>ヒント：</strong> グラフの作成にはggplot2パッケージを使用すると便利です。データの操作にはdplyrパッケージが役立ちます。これらのパッケージを使用する場合は、R Markdownファイルの冒頭でライブラリを読み込むことを忘れないでください。</p>
+    </div>
+
+    <p>この練習問題を通じて、R Markdownを使用したデータ分析レポートの作成プロセスを体験できます。各ステップで疑問が生じた場合は、R Markdownのヘルプドキュメントを参照するか、オンラインリソースを活用してください。</p>
+
+</body>
+</html>

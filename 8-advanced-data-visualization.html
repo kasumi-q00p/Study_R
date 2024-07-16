@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8. 応用データの可視化 - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>8. 応用データの可視化</h1>
+
+    <p>このセクションでは、より高度なデータ可視化技術を学びます。複雑なggplot2グラフ、生物学特有のデータ可視化、そして大規模データセットの効果的な表現方法を扱います。</p>
+
+    <h2>8.1 複雑なggplot2グラフ</h2>
+
+    <h3>8.1.1 複数の要素を組み合わせたグラフ</h3>
+    <pre><code>library(ggplot2)
+library(dplyr)
+
+# サンプルデータの作成
+set.seed(123)
+data <- data.frame(
+  x = rep(1:10, 3),
+  y = c(rnorm(10, 10, 2), rnorm(10, 15, 2), rnorm(10, 20, 2)),
+  group = rep(c("A", "B", "C"), each = 10)
+)
+
+# 複合グラフの作成
+ggplot(data, aes(x = x, y = y, color = group)) +
+  geom_point(size = 3) +
+  geom_line() +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
+  facet_wrap(~group) +
+  labs(title = "Complex Graph: Combination of Scatter Plot, Line Graph, and Regression Line",
+       x = "X-axis", y = "Y-axis") +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1")
+</code></pre>
+
+    <h3>8.1.2 時系列データの可視化（アニメーションと静的グラフ）</h3>
+    <pre><code># 必要なパッケージのインストールと読み込み
+if (!requireNamespace("gganimate", quietly = TRUE)) install.packages("gganimate")
+if (!requireNamespace("gifski", quietly = TRUE)) install.packages("gifski")
+if (!requireNamespace("av", quietly = TRUE)) install.packages("av")
+
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
+# アニメーションデータの作成
+set.seed(123)
+animation_data <- data.frame(
+  year = rep(2000:2020, each = 3),
+  value = cumsum(runif(63, -5, 10)),
+  group = rep(c("A", "B", "C"), 21)
+)
+
+# 静的なグラフの作成
+static_plot <- ggplot(animation_data, aes(x = year, y = value, color = group, group = group)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Annual Changes", x = "Year", y = "Value") +
+  theme_minimal()
+
+# 静的なグラフの表示
+print(static_plot)
+
+# アニメーションの作成（gganimate）
+animated_plot <- static_plot +
+  transition_reveal(year) +
+  ease_aes('linear')
+
+# アニメーションの保存（GIFとして）
+anim_save("year_change_animation.gif", animation = animated_plot, width = 800, height = 600, fps = 10, duration = 10, renderer = gifski_renderer())
+
+print("Animation has been saved as 'year_change_animation.gif'.")
+
+# 注意: アニメーションが正常に生成されない場合は、以下のコードで特定の年のデータを可視化できます
+years_to_plot <- c(2000, 2010, 2020)
+static_multi_year_plot <- ggplot(animation_data %>% filter(year %in% years_to_plot),
+                                 aes(x = year, y = value, color = group, group = group)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~year) +
+  labs(title = "Changes in Specific Years", x = "Year", y = "Value") +
+  theme_minimal()
+
+print(static_multi_year_plot)
+</code></pre>
+
+    <h2>8.2 ヒートマップの作成</h2>
+    <p>ヒートマップは、遺伝子発現データなど、大規模なデータセットを視覚化するのに適しています。</p>
+    <pre><code># 必要なパッケージのインストールと読み込み
+if (!requireNamespace("pheatmap", quietly = TRUE)) install.packages("pheatmap")
+library(pheatmap)
+
+# サンプルデータの作成（遺伝子発現マトリックス）
+set.seed(123)
+gene_expression <- matrix(rnorm(1000, mean = 10, sd = 2), nrow = 50, ncol = 20)
+rownames(gene_expression) <- paste0("Gene", 1:50)
+colnames(gene_expression) <- paste0("Sample", 1:20)
+
+# データの正規化
+gene_expression_normalized <- scale(gene_expression)
+
+# ヒートマップの作成
+pheatmap(gene_expression_normalized,
+         main = "Gene Expression Heatmap",
+         cluster_rows = TRUE,
+         cluster_cols = TRUE,
+         show_rownames = FALSE,
+         show_colnames = FALSE,
+         fontsize = 8,
+         color = colorRampPalette(c("navy", "white", "firebrick3"))(50))
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> ヒートマップのタイトルを英語に変更することで、日本語の文字エンコーディングに関する警告を回避しています。実際の研究では、必要に応じて日本語のタイトルを使用し、文字エンコーディングの問題に対処する方法（例：Cairo グラフィックデバイスの使用）を検討してください。</p>
+    </div>
+
+    <h2>8.3 系統樹の可視化</h2>
+    <p>系統樹は、生物学的な進化関係を視覚化するのに使用されます。</p>
+    <pre><code># 必要なパッケージのインストールと読み込み
+if (!requireNamespace("ape", quietly = TRUE)) install.packages("ape")
+if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")
+if (!requireNamespace("ggtree", quietly = TRUE)) {
+  if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+  BiocManager::install("ggtree")
+}
+
+library(ape)
+library(ggplot2)
+library(ggtree)
+
+# サンプルの系統樹データの作成
+set.seed(123)  # 再現性のため
+tree <- rtree(10)
+
+# 基本的な系統樹の描画
+plot(tree, main = "Random Phylogenetic Tree")
+
+# ggtreeを使用したより洗練された系統樹の描画
+ggtree_plot <- ggtree(tree) + 
+  geom_tiplab() +
+  theme_tree2() +
+  ggtitle("Phylogenetic Tree (ggplot2 Style)")
+
+# ggtreeプロットの表示
+print(ggtree_plot)
+
+# 注意: ggtreeプロットを保存する場合は以下のコードを使用
+# ggsave("phylogenetic_tree.png", plot = ggtree_plot, width = 10, height = 8)
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> `ggtree` パッケージは Bioconductor から提供されているため、インストール方法が少し異なります。また、`ggtree` は `ggplot2` を基にしているため、`ggplot2` パッケージも明示的に読み込んでいます。</p>
+    </div>
+
+    <h2>8.4 地理的データの可視化</h2>
+    <p>生態学的データなど、地理情報を含むデータの可視化に使用します。</p>
+    <pre><code>library(ggplot2)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+# 日本の地図データを取得
+japan <- ne_countries(scale = "medium", returnclass = "sf", country = "japan")
+
+# サンプルデータ（日本の主要都市の位置）
+cities <- data.frame(
+  lon = c(139.7, 135.5, 130.4),
+  lat = c(35.7, 34.7, 33.6),
+  name = c("Tokyo", "Osaka", "Fukuoka")
+)
+
+# 地図の作成
+ggplot(data = japan) +
+  geom_sf() +
+  geom_point(data = cities, aes(x = lon, y = lat), color = "red", size = 3) +
+  geom_text(data = cities, aes(x = lon, y = lat, label = name), hjust = 0, vjust = 0) +
+  coord_sf(xlim = c(129, 146), ylim = c(30, 46), expand = FALSE) +
+  theme_minimal() +
+  labs(title = "Major Cities in Japan")
+
+# グラフを表示または保存
+ggsave("japan_cities_map.png", width = 10, height = 8)
+print("Map has been saved as 'japan_cities_map.png'.")
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> これらの高度な可視化技術を使用する際は、データの性質と伝えたい情報を十分に考慮してください。過度に複雑なグラフは、かえって情報を伝えにくくなる場合があります。また、大規模なデータセットを扱う場合は、計算時間やメモリ使用量に注意してください。</p>
+    </div>
+
+    <h2>まとめ</h2>
+    <p>このセクションでは、複雑なggplot2グラフ、ヒートマップ、系統樹、地理的データの可視化など、さまざまな応用的なデータ可視化技術を学びました。これらの技術を適切に使用することで、複雑なデータセットから意味のある洞察を引き出し、効果的に情報を伝えることができます。実際のプロジェクトでは、データの性質や目的に応じて最適な可視化方法を選択し、必要に応じてこれらの技術を組み合わせることが重要です。</p>
+
+</body>
+</html>

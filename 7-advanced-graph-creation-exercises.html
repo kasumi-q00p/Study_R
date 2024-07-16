@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グラフ作成の応用の練習問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .question {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+        .answer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>グラフ作成の応用の練習問題</h1>
+
+    <p>以下の問題では、提供されたCSVファイル "gene_expression_data.csv" を使用します。このファイルには、複数の遺伝子の発現データが含まれています。</p>
+
+    <div class="question">
+        <h2>問題 1: 複合的なggplot2グラフ</h2>
+        <p>遺伝子発現レベルの時間変化を示す複合グラフを作成してください。線グラフと散布図を組み合わせ、各遺伝子を異なる色で表示し、ファセットを使用して遺伝子ごとに別のパネルに表示してください。適切なテーマとカラーパレットを適用してください。</p>
+        <button onclick="toggleAnswer('answer1')">回答を表示/非表示</button>
+        <div id="answer1" class="answer">
+            <pre><code>library(ggplot2)
+library(dplyr)
+
+# データの読み込み
+gene_data <- read.csv("gene_expression_data.csv")
+
+# グラフの作成
+ggplot(gene_data, aes(x = time_point, y = expression_level, color = condition)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_wrap(~ gene, scales = "free_y") +
+  labs(title = "遺伝子発現レベルの時間変化",
+       x = "時間", y = "発現レベル") +
+  theme_minimal() +
+  theme(
+    strip.background = element_rect(fill = "lightblue"),
+    strip.text = element_text(face = "bold"),
+    legend.position = "bottom"
+  ) +
+  scale_color_brewer(palette = "Set1")
+</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 2: 適切なグラフタイプの選択</h2>
+        <p>最終時点（24時間）での各遺伝子の発現レベルを比較するのに適したグラフを選択し、作成してください。選択したグラフタイプとその理由を説明してください。</p>
+        <button onclick="toggleAnswer('answer2')">回答を表示/非表示</button>
+        <div id="answer2" class="answer">
+            <p>この場合、箱ひげ図が適切です。各遺伝子の発現レベルの分布を比較でき、外れ値も確認できるためです。</p>
+            <pre><code>library(ggplot2)
+
+# 24時間時点のデータのみを抽出
+data_24h <- gene_data %>% filter(time_point == 24)
+
+# 箱ひげ図の作成
+ggplot(data_24h, aes(x = gene, y = expression_level, fill = condition)) +
+  geom_boxplot() +
+  labs(title = "24時間後の遺伝子発現レベル比較",
+       x = "遺伝子", y = "発現レベル") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set2")
+</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 3: インタラクティブなグラフ（plotly）</h2>
+        <p>問題1で作成したグラフをベースに、plotlyを使用してインタラクティブなバージョンを作成してください。ユーザーがデータポイントにホバーした際に、正確な発現レベルと時間が表示されるようにしてください。</p>
+        <button onclick="toggleAnswer('answer3')">回答を表示/非表示</button>
+        <div id="answer3" class="answer">
+            <pre><code>library(ggplot2)
+library(plotly)
+
+# ggplot2でグラフを作成
+p <- ggplot(gene_data, aes(x = time_point, y = expression_level, color = condition)) +
+  geom_line() +
+  geom_point(size = 2) +
+  facet_wrap(~ gene, scales = "free_y") +
+  labs(title = "遺伝子発現レベルの時間変化（インタラクティブ）",
+       x = "時間", y = "発現レベル") +
+  theme_minimal()
+
+# plotlyに変換
+interactive_plot <- ggplotly(p, tooltip = c("x", "y", "color"))
+
+# プロットの表示
+interactive_plot
+</code></pre>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
