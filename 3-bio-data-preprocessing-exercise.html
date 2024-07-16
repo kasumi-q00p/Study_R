@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生物学データの読み込みと前処理の練習問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .question {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+        .answer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>生物学データの読み込みと前処理の練習問題</h1>
+
+    <p>以下の問題では、提供されたCSVファイル "sample_bio_data.csv" を使用します。このファイルには、マウスとラットの実験データが含まれています。</p>
+
+    <div class="question">
+        <h2>問題 1: データの読み込みと確認</h2>
+        <p>CSVファイルを読み込み、最初の数行とデータ構造を確認してください。</p>
+        <button onclick="toggleAnswer('answer1')">回答を表示/非表示</button>
+        <div id="answer1" class="answer">
+            <pre><code># データの読み込み
+data <- read.csv("sample_bio_data.csv")
+
+# 最初の数行を確認
+head(data)
+
+# データ構造の確認
+str(data)</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 2: 列名の変更</h2>
+        <p>"Observation_Date" 列を "Date" に、"Notes" 列を "Comments" に変更してください。</p>
+        <button onclick="toggleAnswer('answer2')">回答を表示/非表示</button>
+        <div id="answer2" class="answer">
+            <pre><code># 列名の変更
+names(data)[names(data) == "Observation_Date"] <- "Date"
+names(data)[names(data) == "Notes"] <- "Comments"
+
+# 変更の確認
+names(data)</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 3: 不要な列の削除</h2>
+        <p>"Location" 列を削除してください。</p>
+        <button onclick="toggleAnswer('answer3')">回答を表示/非表示</button>
+        <div id="answer3" class="answer">
+            <pre><code># Location 列の削除
+data$Location <- NULL
+
+# または、dplyrパッケージを使用する場合
+# library(dplyr)
+# data <- select(data, -Location)
+
+# 変更の確認
+names(data)</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 4: データ型の変換</h2>
+        <p>"Age" 列を数値型に変換してください。</p>
+        <button onclick="toggleAnswer('answer4')">回答を表示/非表示</button>
+        <div id="answer4" class="answer">
+            <pre><code># Age 列を数値型に変換
+data$Age <- as.numeric(data$Age)
+
+# 変更の確認
+str(data$Age)</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 5: 欠損値の確認と処理</h2>
+        <p>データセット内の欠損値を確認し、"Weight" 列の欠損値を平均値で補完してください。</p>
+        <button onclick="toggleAnswer('answer5')">回答を表示/非表示</button>
+        <div id="answer5" class="answer">
+            <pre><code># 欠損値の確認
+colSums(is.na(data))
+
+# Weight 列の欠損値を平均値で補完
+data$Weight[is.na(data$Weight)] <- mean(data$Weight, na.rm = TRUE)
+
+# 補完後の確認
+sum(is.na(data$Weight))</code></pre>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

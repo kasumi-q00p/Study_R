@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本的な統計検定の練習問題</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .question {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+        .answer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>基本的な統計検定の練習問題</h1>
+
+    <p>以下の問題では、提供されたCSVファイル "complex_bio_dataset.csv" を使用します。このファイルには、ゼブラフィッシュ（Danio rerio）とメダカ（Oryzias latipes）の実験データが含まれています。</p>
+
+    <div class="question">
+        <h2>問題 1: 二元配置分散分析</h2>
+        <p>種（species）と処理（treatment）が魚の体重（weight_g）に与える影響を分析するために、二元配置分散分析を行ってください。結果を解釈し、主効果と交互作用について説明してください。</p>
+        <button onclick="toggleAnswer('answer1')">回答を表示/非表示</button>
+        <div id="answer1" class="answer">
+            <pre><code># データの読み込み
+fish_data <- read.csv("complex_bio_dataset.csv")
+
+# 二元配置分散分析の実行
+anova_result <- aov(weight_g ~ species * treatment, data = fish_data)
+
+# 結果の表示
+summary(anova_result)
+
+# 結果の解釈例：
+# 1. 種の主効果が有意 (p < 0.001) であり、種によって体重に差があることが示されました。
+# 2. 処理の主効果も有意 (p < 0.001) であり、処理によって体重が変化することが分かりました。
+# 3. 種と処理の交互作用も有意 (p < 0.001) でした。これは、処理の効果が種によって異なることを示しています。
+
+# 生物学的な考察：
+# この結果は、異なる種（ゼブラフィッシュとメダカ）が処理に対して異なる反応を示すことを示唆しています。
+# 種ごとに最適な処理方法が異なる可能性があり、種特異的なアプローチが必要かもしれません。
+</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 2: 相関分析と回帰分析</h2>
+        <p>魚の体長（length_cm）と生存日数（survival_days）の関係を分析するために、相関分析と単回帰分析を行ってください。結果を解釈し、これらの変数間の関係について説明してください。</p>
+        <button onclick="toggleAnswer('answer2')">回答を表示/非表示</button>
+        <div id="answer2" class="answer">
+            <pre><code># 相関分析
+cor_result <- cor.test(fish_data$length_cm, fish_data$survival_days)
+print(cor_result)
+
+# 回帰分析
+reg_model <- lm(survival_days ~ length_cm, data = fish_data)
+summary(reg_model)
+
+# 結果の解釈例：
+# 1. 相関係数は 0.97 (p < 0.001) で、体長と生存日数の間に強い正の相関があることが示されました。
+# 2. 回帰モデルの R² は 0.94 で、体長が生存日数の変動の94%を説明できることを示しています。
+# 3. 回帰係数は 13.45 (p < 0.001) で、体長が1cm増加すると生存日数が約13.45日増加することを示しています。
+
+# 生物学的な考察：
+# この結果は、より大きな魚がより長く生存する傾向があることを示唆しています。
+# これは、大きな魚がより多くのエネルギー貯蔵や環境ストレスへの耐性を持っている可能性を示唆しています。
+# ただし、因果関係を確立するにはさらなる研究が必要です。
+</code></pre>
+        </div>
+    </div>
+
+    <div class="question">
+        <h2>問題 3: 多重比較</h2>
+        <p>処理（treatment）が魚の体重（weight_g）に与える影響を分析するために、一元配置分散分析と事後のTukey's HSDテストを行ってください。どの処理間に有意差があるか調べ、結果を解釈してください。</p>
+        <button onclick="toggleAnswer('answer3')">回答を表示/非表示</button>
+        <div id="answer3" class="answer">
+            <pre><code># 一元配置分散分析
+anova_result <- aov(weight_g ~ treatment, data = fish_data)
+summary(anova_result)
+
+# Tukey's HSDによる多重比較
+tukey_result <- TukeyHSD(anova_result)
+print(tukey_result)
+
+# 結果の解釈例：
+# 1. 一元配置分散分析の結果、処理の効果が有意 (p < 0.001) でした。
+# 2. Tukey's HSDの結果：
+#   - Treatment A - Control: 有意差あり (p < 0.05)
+#   - Treatment B - Control: 有意差あり (p < 0.05)
+#   - Treatment B - Treatment A: 有意差あり (p < 0.05)
+
+# 生物学的な考察：
+# すべての処理間で有意差が見られたことから、各処理が魚の体重に異なる影響を与えていることが分かります。
+# Treatment Bが最も体重増加に効果的であり、次いでTreatment A、Controlの順となっています。
+# この結果は、Treatment Bが魚の成長を促進する上で最も効果的な方法である可能性を示唆しています。
+</code></pre>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            var answer = document.getElementById(id);
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
