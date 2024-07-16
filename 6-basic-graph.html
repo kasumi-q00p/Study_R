@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. グラフ作成の基礎 - Rで学ぶ生物統計学とデータ可視化</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            margin-bottom: 15px;
+            padding: 4px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>6. グラフ作成の基礎</h1>
+
+    <p>データの可視化は、生物学研究において重要な役割を果たします。適切なグラフは、データの傾向や関係性を効果的に伝えることができます。このセクションでは、RでのグラフR作成の基礎を学びます。</p>
+
+    <h2>6.1 base Rによるグラフ作成</h2>
+
+    <p>base Rは、Rに標準で搭載されているグラフ作成機能です。簡単な図を素早く作成するのに適しています。</p>
+
+    <h3>6.1.1 散布図</h3>
+    <pre><code># サンプルデータの作成
+x <- c(1, 2, 3, 4, 5)
+y <- c(2, 4, 5, 4, 5)
+
+# 散布図の作成
+plot(x, y, main="基本的な散布図", xlab="X軸", ylab="Y軸", pch=19)
+</code></pre>
+
+    <h3>6.1.2 線グラフ</h3>
+    <pre><code># 線グラフの作成
+plot(x, y, type="l", main="基本的な線グラフ", xlab="X軸", ylab="Y軸")
+</code></pre>
+
+    <h3>6.1.3 棒グラフ</h3>
+    <pre><code># サンプルデータ
+categories <- c("A", "B", "C", "D")
+values <- c(3, 7, 9, 5)
+
+# 棒グラフの作成
+barplot(values, names.arg=categories, main="基本的な棒グラフ", xlab="カテゴリ", ylab="値")
+</code></pre>
+
+    <h2>6.2 ggplot2の導入</h2>
+
+    <p>ggplot2は、より美しく柔軟なグラフを作成するためのパッケージです。文法的なアプローチを採用しており、複雑なグラフも段階的に構築できます。</p>
+
+    <pre><code># ggplot2のインストールと読み込み
+install.packages("ggplot2")
+library(ggplot2)
+
+# サンプルデータの作成
+data <- data.frame(x = c(1, 2, 3, 4, 5),
+                   y = c(2, 4, 5, 4, 5),
+                   group = c("A", "A", "B", "B", "B"))
+
+# 散布図の作成
+ggplot(data, aes(x = x, y = y, color = group)) +
+  geom_point() +
+  labs(title = "ggplot2による散布図",
+       x = "X軸",
+       y = "Y軸") +
+  theme_minimal()
+</code></pre>
+
+    <h2>6.3 よく使われる生物学のグラフ</h2>
+
+    <h3>6.3.1 箱ひげ図</h3>
+    <p>箱ひげ図は、データの分布を視覚化するのに適しています。例えば、異なる処理群間での遺伝子発現量の比較に使用できます。</p>
+
+    <pre><code># サンプルデータの作成
+gene_expression <- data.frame(
+  treatment = rep(c("Control", "Drug A", "Drug B"), each = 30),
+  expression = c(rnorm(30, 10, 2), rnorm(30, 12, 2), rnorm(30, 15, 2))
+)
+
+# 箱ひげ図の作成
+ggplot(gene_expression, aes(x = treatment, y = expression, fill = treatment)) +
+  geom_boxplot() +
+  labs(title = "遺伝子発現量の比較",
+       x = "処理",
+       y = "発現量") +
+  theme_minimal()
+</code></pre>
+
+    <h3>6.3.2 棒グラフ（エラーバー付き）</h3>
+    <p>平均値とその誤差を表示する棒グラフは、実験結果を要約するのに適しています。</p>
+
+    <pre><code># データの要約
+library(dplyr)
+summary_data <- gene_expression %>%
+  group_by(treatment) %>%
+  summarise(
+    mean_expression = mean(expression),
+    se = sd(expression) / sqrt(n())
+  )
+
+# エラーバー付き棒グラフの作成
+ggplot(summary_data, aes(x = treatment, y = mean_expression, fill = treatment)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymin = mean_expression - se, ymax = mean_expression + se),
+                width = 0.2) +
+  labs(title = "平均遺伝子発現量（±SE）",
+       x = "処理",
+       y = "平均発現量") +
+  theme_minimal()
+</code></pre>
+
+    <h3>6.3.3 散布図（回帰直線付き）</h3>
+    <p>2つの連続変数間の関係を視覚化するのに適しています。例えば、体重と体長の関係を表すのに使用できます。</p>
+
+    <pre><code># サンプルデータの作成
+fish_data <- data.frame(
+  weight = rnorm(50, 100, 20),
+  length = rnorm(50, 20, 3)
+)
+
+# 散布図と回帰直線の作成
+ggplot(fish_data, aes(x = length, y = weight)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "魚の体長と体重の関係",
+       x = "体長 (cm)",
+       y = "体重 (g)") +
+  theme_minimal()
+</code></pre>
+
+    <div class="note">
+    <p><strong>注意：</strong> グラフ作成時は、データの性質や伝えたいメッセージに応じて適切なグラフタイプを選択することが重要です。また、軸のラベル、タイトル、凡例などを適切に設定し、グラフを見る人が容易に理解できるようにしましょう。</p>
+    </div>
+
+</body>
+</html>
