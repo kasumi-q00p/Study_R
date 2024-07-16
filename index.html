@@ -13,84 +13,103 @@
             margin: 0 auto;
             padding: 20px;
         }
-        h1, h2 {
+        h1, h2, h3 {
             color: #2c3e50;
         }
-        .section {
+        .section-summary {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
             margin-bottom: 20px;
         }
-        .exercise-link {
-            margin-left: 20px;
-            font-style: italic;
-            color: #3498db;
-        }
-        .exercise-link:hover {
-            text-decoration: underline;
+        .cta-button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <h1>Rで学ぶ生物統計学とデータ可視化</h1>
-    <nav>
+
+    <section id="introduction">
+        <h2>はじめに</h2>
+        <p>このサイトは、生物学分野の学生や研究者を対象に、R言語を使用した統計解析とデータ可視化の基礎から応用までを学ぶためのリソースです。初心者から中級者まで、段階的に学習を進められるよう設計されています。</p>
+        <p>対象読者：</p>
         <ul>
-            <li class="section">
-                <a href="1-introduction.html">1. はじめに</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="2-r-basics-content.html">2. R言語の基礎</a>
-                <div class="exercise-link">
-                    <a href="2-r-basics-exercises.html">練習問題：R言語の基礎</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="3-bio-data-preprocessing.html">3. 生物学データの読み込みと前処理</a>
-                <div class="exercise-link">
-                    <a href="3-bio-data-preprocessing-exercise.html">練習問題：データの読み込みと前処理</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="4-descriptive-statistics-combined.html">4. 記述統計学</a>
-                <div class="exercise-link">
-                    <a href="4-descriptive-statistics-exercises.html">練習問題：記述統計学</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="5-basic-statistical.html">5. 基本的な統計検定</a>
-                <div class="exercise-link">
-                    <a href="5-basic-statistical-exercises.html">練習問題：基本的な統計検定</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="6-basic-graph.html">6. グラフ作成の基礎</a>
-                <div class="exercise-link">
-                    <a href="6-basic-graph-exercises.html">練習問題：グラフ作成の基礎</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="7-advanced-graph-creation.html">7. グラフ作成の応用</a>
-                <div class="exercise-link">
-                    <a href="7-advanced-graph-creation-exercises.html">練習問題：応用的なデータ可視化</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="8-advanced-data-visualization.html">8. 応用的なデータ可視化</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="9-practical-project-examples.html">9. 実践的なプロジェクト例</a>
-                </div>
-            </li>
-            <li class="section">
-                <a href="10-advanced-topics.html">10. 発展的なトピックス</a>
-                <div class="exercise-link">
-                    <a href="10-r-markdown-exercise.html">練習問題：R Markdownを使用したレポート作成</a>
-            </li>
-            <li class="section">
-                <a href="11-references.html">11. 参考資料とリソース</a>
-                </div>
-            </li>
+            <li>生物学を学ぶ大学生・大学院生</li>
+            <li>生物統計学の基礎を学びたい研究者</li>
+            <li>Rを使ったデータ分析スキルを向上させたい方</li>
         </ul>
-    </nav>
+    </section>
+
+    <section id="course-outline">
+        <h2>コース概要</h2>
+        <p>本コースは以下のセクションで構成されています：</p>
+
+        <div class="section-summary">
+            <h3>1. はじめに</h3>
+            <p>RとRStudioの基本、インストール方法、基本的な使い方を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>2. R言語の基礎</h3>
+            <p>R言語の基本的な構文、データ型、関数の使い方を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>3. 生物学データの読み込みと前処理</h3>
+            <p>実際の生物学データの取り扱い方、クリーニング、整形の方法を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>4. 記述統計学</h3>
+            <p>データの要約統計量の計算と基本的な可視化方法を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>5. 基本的な統計検定</h3>
+            <p>t検定、分散分析、相関分析など、基本的な統計検定の実施方法を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>6. グラフ作成の基礎</h3>
+            <p>ggplot2を使用した効果的なデータ可視化の方法を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>7. グラフ作成の応用</h3>
+            <p>高度なggplot2の機能、複雑なグラフの作成方法、インタラクティブな可視化技術を学びます。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>8. 応用データの可視化</h3>
+            <p>ヒートマップ、系統樹、地理的データの可視化など、より専門的なデータ可視化技術を習得します。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>9. 実践的なプロジェクト例</h3>
+            <p>遺伝子発現データの解析や生態学データの統計解析など、実際のプロジェクトを通じて学んだスキルを統合します。</p>
+        </div>
+
+        <div class="section-summary">
+            <h3>10. 発展的なトピック</h3>
+            <p>Bioconductorパッケージの使用、R Markdownでのレポート作成、バージョン管理など、より高度なトピックを探求します。</p>
+        </div>
+    </section>
+
+    <section id="get-started">
+        <h2>さあ、始めましょう！</h2>
+        <p>各セクションには、詳細な説明とコード例、そして練習問題が用意されています。自分のペースで学習を進めてください。</p>
+        <a href="1-introduction.html" class="cta-button">学習を始める</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Rで学ぶ生物統計学とデータ可視化. All rights reserved.</p>
+    </footer>
 </body>
 </html>
