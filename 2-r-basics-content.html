@@ -9,12 +9,13 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
             color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
         }
         code {
             background-color: #f4f4f4;
@@ -33,9 +34,59 @@
             margin-bottom: 15px;
             padding: 4px 12px;
         }
+        .nav-menu {
+            background-color: #2c3e50;
+            padding: 10px 0;
+        }
+        .nav-menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .nav-menu li {
+            margin: 5px 10px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .nav-menu a:hover {
+            background-color: #34495e;
+        }
+        @media (max-width: 600px) {
+            .nav-menu ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-menu li {
+                margin: 5px 0;
+            }
+        }
     </style>
 </head>
 <body>
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="index.html">ホーム</a></li>
+            <li><a href="1-introduction.html">1. はじめに</a></li>
+            <li><a href="2-r-basics.html">2. R言語の基礎</a></li>
+            <li><a href="3-data-preprocessing.html">3. データ前処理</a></li>
+            <li><a href="4-descriptive-statistics.html">4. 記述統計学</a></li>
+            <li><a href="5-basic-statistical-tests.html">5. 基本的な統計検定</a></li>
+            <li><a href="6-basic-graph-creation.html">6. グラフ作成の基礎</a></li>
+            <li><a href="7-advanced-graph-creation.html">7. グラフ作成の応用</a></li>
+            <li><a href="8-advanced-data-visualization.html">8. 応用データの可視化</a></li>
+            <li><a href="9-practical-projects.html">9. 実践的なプロジェクト例</a></li>
+            <li><a href="10-advanced-topics.html">10. 発展的なトピック</a></li>
+        </ul>
+    </nav>
+    <div class="container">
     <h1>2. R言語の基礎</h1>
 
     <h2>基本的な演算と関数</h2>
@@ -114,6 +165,6 @@ ncol(df)            # 列数
 summary(df)         # 要約統計量</code></pre>
 
     <p class="note">注意: これらは基本的な操作の一部にすぎません。Rには多くの高度な機能と関数があり、データ分析や統計処理を効率的に行うことができます。</p>
-
+</div>
 </body>
 </html>
