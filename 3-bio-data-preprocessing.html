@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav class="nav-menu">
+        <ul>
+            <<li><a href="index.html">ホーム</a></li>
+            <li><a href="1-introduction.html">1. はじめに</a></li>
+            <li><a href="2-r-basics-content.html">2. R言語の基礎</a></li>
+            <li><a href="3-bio-data-preprocessing.html">3. データ前処理</a></li>
+            <li><a href="4-descriptive-statistics-combined.html">4. 記述統計学</a></li>
+            <li><a href="5-basic-statistical.html">5. 基本的な統計検定</a></li>
+            <li><a href="6-basic-graph.html">6. グラフ作成の基礎</a></li>
+            <li><a href="7-advanced-graph-creation.html">7. グラフ作成の応用</a></li>
+            <li><a href="8-advanced-data-visualization.html">8. 応用データの可視化</a></li>
+            <li><a href="9-practical-project-examples.html">9. 実践的なプロジェクト例</a></li>
+            <li><a href="10-advanced-topics.html">10. 発展的なトピック</a></li>
+        </ul>
+    </nav>
+    <div class="container">
     <h1>3. 生物学データの読み込みと前処理</h1>
 
     <p>生物学研究では、大量のデータを扱うことが多くあります。そのため、データの効率的な読み込みと適切な前処理は非常に重要です。このセクションでは、CSVファイルの読み込み、データのクリーニングと整形、そして欠損値の処理について学びます。</p>
@@ -79,6 +95,6 @@ data$category[is.na(data$category)] <- names(which.max(table(data$category)))</c
 
     <h2>まとめ</h2>
     <p>このセクションでは、生物学データの基本的な読み込みと前処理の方法について学びました。これらのスキルは、信頼性の高い分析結果を得るための基礎となります。次のセクションでは、これらの前処理されたデータを用いて、基本的な統計解析を行う方法を学びます。</p>
-
+</div>
 </body>
 </html>
