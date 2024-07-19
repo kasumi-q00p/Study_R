@@ -9,8 +9,22 @@
     </style>
 </head>
 <body>
-    <!-- 既存のコンテンツはそのまま -->
-
+  <nav class="nav-menu">
+    <ul>
+        <<li><a href="index.html">ホーム</a></li>
+        <li><a href="1-introduction.html">1. はじめに</a></li>
+        <li><a href="2-r-basics-content.html">2. R言語の基礎</a></li>
+        <li><a href="3-bio-data-preprocessing.html">3. データ前処理</a></li>
+        <li><a href="4-descriptive-statistics-combined.html">4. 記述統計学</a></li>
+        <li><a href="5-basic-statistical.html">5. 基本的な統計検定</a></li>
+        <li><a href="6-basic-graph.html">6. グラフ作成の基礎</a></li>
+        <li><a href="7-advanced-graph-creation.html">7. グラフ作成の応用</a></li>
+        <li><a href="8-advanced-data-visualization.html">8. 応用データの可視化</a></li>
+        <li><a href="9-practical-project-examples.html">9. 実践的なプロジェクト例</a></li>
+        <li><a href="10-advanced-topics.html">10. 発展的なトピック</a></li>
+    </ul>
+  </nav>
+  <div class="container">
     <h2>4.5 実際の生物学データセットを用いた例</h2>
     <p>ここでは、ショウジョウバエ（Drosophila）の3種のデータを用いて、記述統計とデータ可視化の例を示します。</p>
 
@@ -42,6 +56,11 @@ ggplot(drosophila_data, aes(x = length_mm, y = weight_g, color = species)) +
 </code></pre>
 
     <p>この例では、3種のショウジョウバエ（D. melanogaster、D. simulans、D. yakuba）の体長と体重データを分析しています。ボックスプロットを使用して種間の体長の違いを視覚化し、散布図で体長と体重の関係を種ごとに表現しています。</p>
-
+    <section id="4-exercises">
+      <h2>練習問題へ</h2>
+      <p>練習問題が用意されています。自分のペースで学習を進めてください。</p>
+      <a href="4-descriptive-statistics-exercises.html" class="cta-button">練習問題を始める</a>
+  </section>
+  </div>
 </body>
 </html>
