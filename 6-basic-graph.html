@@ -4,38 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>6. グラフ作成の基礎 - Rで学ぶ生物統計学とデータ可視化</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        code {
-            background-color: #f4f4f4;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-        pre {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-        .note {
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
-            margin-bottom: 15px;
-            padding: 4px 12px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <nav class="nav-menu">
+    <ul>
+        <<li><a href="index.html">ホーム</a></li>
+        <li><a href="1-introduction.html">1. はじめに</a></li>
+        <li><a href="2-r-basics-content.html">2. R言語の基礎</a></li>
+        <li><a href="3-bio-data-preprocessing.html">3. データ前処理</a></li>
+        <li><a href="4-descriptive-statistics-combined.html">4. 記述統計学</a></li>
+        <li><a href="5-basic-statistical.html">5. 基本的な統計検定</a></li>
+        <li><a href="6-basic-graph.html">6. グラフ作成の基礎</a></li>
+        <li><a href="7-advanced-graph-creation.html">7. グラフ作成の応用</a></li>
+        <li><a href="8-advanced-data-visualization.html">8. 応用データの可視化</a></li>
+        <li><a href="9-practical-project-examples.html">9. 実践的なプロジェクト例</a></li>
+        <li><a href="10-advanced-topics.html">10. 発展的なトピック</a></li>
+    </ul>
+</nav>
+<div class="container">
     <h1>6. グラフ作成の基礎</h1>
 
     <p>データの可視化は、生物学研究において重要な役割を果たします。適切なグラフは、データの傾向や関係性を効果的に伝えることができます。このセクションでは、RでのグラフR作成の基礎を学びます。</p>
@@ -155,5 +142,11 @@ ggplot(fish_data, aes(x = length, y = weight)) +
     <p><strong>注意：</strong> グラフ作成時は、データの性質や伝えたいメッセージに応じて適切なグラフタイプを選択することが重要です。また、軸のラベル、タイトル、凡例などを適切に設定し、グラフを見る人が容易に理解できるようにしましょう。</p>
     </div>
 
+    <section id="6-exercises">
+      <h2>練習問題へ</h2>
+      <p>練習問題が用意されています。自分のペースで学習を進めてください。</p>
+      <a href="6-basic-graph-exercises.html" class="cta-button">練習問題を始める</a>
+  </section>
+ </div>
 </body>
 </html>
